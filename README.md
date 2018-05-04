@@ -12,12 +12,12 @@ npm install
 `service redis_6379 start`
 `service mongod start`
 Go to /web_server/client folder
-'npm run build'
-'npm run-script build'
+`npm run build`
+`npm run-script build`
 Go to /web_server/server folder
-'nodemon ./bin/www &
+`nodemon ./bin/www &
 cd ../../backend_server
 python service.py &
 cd ../news_recommendation_service
 python recommendation_service.py &
-python click_log_processor.py'
+python click_log_processor.py`
