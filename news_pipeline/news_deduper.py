@@ -2,15 +2,13 @@
 import datetime
 import os
 import sys
-
 from dateutil import parser
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'utils'))
 
 import mongodb_client
-import news_topic_modeling_service_client
-
+# import news_topic_modeling_service_client
 from cloudAMQP_client import CloudAMQPClient
 
 DEDUPE_NEWS_TASK_QUEUE_URL = "amqp://gtwzjnah:H_0VJ1Hf4Cl2d1lxIJKwi2Bjojdcsztf@otter.rmq.cloudamqp.com/gtwzjnah"
@@ -32,7 +30,7 @@ def handle_message(msg):
     if text is None:
         return
     published_at = parser.parse(task['publishedAt'])
-    published_at_day_begin = datetime.datetime(published_at.year, published_at.month, published_at.day, -1, 0, 0, 0)
+    published_at_day_begin = datetime.datetime(published_at.year, published_at.month, published_at.day, 0, 0, 0, 0)
     published_at_day_end = published_at_day_begin + datetime.timedelta(days=1)
     db = mongodb_client.get_db()
     same_day_news_list = list(db[NEWS_TABLE_NAME].find(
@@ -51,9 +49,9 @@ def handle_message(msg):
                 return
     task['publishedAt'] = parser.parse(task['publishedAt'])
     title = task['title']
-    if title is not None:
-        topic = news_topic_modeling_service_client.classify(title)
-        task['class'] = topic
+    # if title is not None:
+        #topic = news_topic_modeling_service_client.classify(title)
+        # task['class'] = topic
     db[NEWS_TABLE_NAME].replace_one({'digest': task['digest']}, task, upsert=True)
 
 while True:

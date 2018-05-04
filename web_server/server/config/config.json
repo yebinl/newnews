@@ -1,4 +1,4 @@
 {
-    "mongoDbUri" : "mongodb://localhost:27017/tapnews",
+    "mongoDbUri" : "mongodb://localhost:27017/new-news",
     "jwtSecret" : "winner winner chicken dinner"
 }

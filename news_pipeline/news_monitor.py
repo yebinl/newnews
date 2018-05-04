@@ -18,7 +18,19 @@ REDIS_PORT = 6379
 SCRAPE_NEWS_TASK_QUEUE_URL = "amqp://mllvzygt:eFB_fRvEbO4U0OembzWKdST3-h8JXAhF@otter.rmq.cloudamqp.com/mllvzygt"
 SCRAPE_NEWS_TASK_QUEUE_NAME = "tap-news-scrape-news-task-queue"
 
-NEWS_SOURCES = ['cnn']
+NEWS_SOURCES = [
+    'bbc-news',
+    'bbc-sport',
+    'bloomberg',
+    'cnn',
+    'entertainment-weekly',
+    'espn',
+    'ign',
+    'techcrunch',
+    'the-new-york-times',
+    'the-wall-street-journal',
+    'the-washington-post'
+]
 
 redis_client = redis.StrictRedis(REDIS_HOST, REDIS_PORT)
 cloudAMQP_client = CloudAMQPClient(SCRAPE_NEWS_TASK_QUEUE_URL, SCRAPE_NEWS_TASK_QUEUE_NAME)

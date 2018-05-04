@@ -2,7 +2,7 @@ import sys
 import os
 sys.path.append(os.path.join(os.path.dirname(__file__), '../'))
 
-import ../mongodb_client as client
+import mongodb_client as client
 
 def test_basic():
     db = client.get_db('test')
