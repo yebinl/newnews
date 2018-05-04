@@ -6,4 +6,4 @@ requests
 sklearn
 numpy
 scipy
-newspaper
+newspaper==0.0.8
