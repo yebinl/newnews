@@ -4,8 +4,6 @@ const router = express.Router();
 const validator = require('validator');
 
 router.post('/signup', (req, res, next) => {
-    console.log('req body ' + req);
-    console.dir(req)
     const validationResult = validateSignupForm(req.body);
     if (!validationResult.success) {
         console.log('validationResult failed');
@@ -72,7 +70,6 @@ router.post('/login', (req, res, next) => {
 });
 
 function validateSignupForm(payload) {
-    console.log('payload: ' + payload);
     const errors = {};
     let isFormValid = true;
     let message = '';
@@ -95,7 +92,6 @@ function validateSignupForm(payload) {
 }
 
 function validateLoginForm(payload) {
-    console.log(payload);
     const errors = {};
     let isFormValid = true;
     let message = '';

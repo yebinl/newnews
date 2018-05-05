@@ -8,7 +8,7 @@ from bson.json_util import dumps
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'utils'))
 
 import mongodb_client
-import orperations
+import operations
 
 SERVER_HOST = 'localhost'
 SERVER_PORT = 4040

@@ -1,5 +1,6 @@
 import './NewsPanel.css';
 import React, { Component } from 'react';
+import { Link } from 'react-router';
 import NewsCard from '../NewsCard/NewsCard';
 import _ from 'lodash';
 import Auth from '../../Helper/Auth';
@@ -7,7 +8,7 @@ import Auth from '../../Helper/Auth';
 class NewsPanel extends Component {
     constructor() {
         super();
-        this.state = {news : null};
+        this.state = {news : null, pageNum: 1, totalPage: 1, loadedAll: false};
         this.handleScroll = this.handleScroll.bind(this);
     }
 
@@ -18,7 +19,13 @@ class NewsPanel extends Component {
     }
 
     loadMoreNews() {
-        let request = new Request('http://localhost:3000/news', {
+        if(this.state.loadedAll === true) {
+            return;
+        }
+        console.log(this.state.pageNum);
+        let url = 'http://localhost:3000/news/userId/' + Auth.getEmail()
+                  + '/pageNum/' + this.state.pageNum;
+        let request = new Request(encodeURI(url), {
             method: 'GET',
             headers: {
                 'Authorization': 'bearer ' + Auth.getToken(),
@@ -26,32 +33,36 @@ class NewsPanel extends Component {
             cache: false
         });
         fetch(request)
-        .then(res => res.json(res))
-        .then(news => {
+            .then((res) => res.json())
+            .then((news) => {
+                if (!news || news.length === 0) {
+                    this.setState({loadedAll: true});
+                }
             this.setState({
-                news: this.state.news ? this.state.news.concat(news) : news
+                news:this.state.news ? this.state.news.concat(news) : news,
+                pageNum: this.state.pageNum + 1
             });
-        })
+        });
     }
+
     handleScroll() {
         let scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
         if ((window.innerHeight + scrollY) >= (document.body.offsetHeight - 500)) {
-            console.log('Loading more news');
             this.loadMoreNews();
         }
     }
 
     renderNews() {
-        let news_list = this.state.news.map(function(news) {
+        const news_list = this.state.news.map(function(news) {
             return(
-                <a className='list-group-item' key={news.digest} href="#">
+                <Link className='list-group-item' to="#">
                     <NewsCard news={news} />
-                </a>
+                </Link>
             );
         });
-        return (
-            <div className="container-fluid">
-                <div className="list-group">
+        return(
+            <div className='container-fluid'>
+                <div className='list-group'>
                     {news_list}
                 </div>
             </div>
