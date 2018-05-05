@@ -44,7 +44,7 @@ def handle_message(msg):
         print pairwise_sim
         rows, _ = pairwise_sim.shape
         for row in range(1, rows):
-            if pairwise_sim[row, 0] > SAME_NEWS_SIMILARITY_THRESHOLD:
+            if pairwise_sim[row, 0] >= SAME_NEWS_SIMILARITY_THRESHOLD:
                 print "Duplicated news. Ignore."
                 return
     task['publishedAt'] = parser.parse(task['publishedAt'])

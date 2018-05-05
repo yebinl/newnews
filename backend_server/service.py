@@ -8,6 +8,7 @@ from bson.json_util import dumps
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'utils'))
 
 import mongodb_client
+import orperations
 
 SERVER_HOST = 'localhost'
 SERVER_PORT = 4040
@@ -24,6 +25,10 @@ class RequestHandler(pyjsonrpc.HttpRequestHandler):
         db = mongodb_client.get_db()
         news = list(db['demo'].find())
         return json.loads(dumps(news))
+
+    @pyjsonrpc.rpcmethod
+    def getNewsSummariesForUser(self, user_id, page_num):
+        return operations.getNewsSummariesForUser(user_id, page_num)
 
 http_server = pyjsonrpc.ThreadingHttpServer(
     server_address = (SERVER_HOST, SERVER_PORT),
